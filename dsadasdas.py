@@ -57,6 +57,10 @@ hard_text = font_content.render("Press 'H' - Hard (5x5)", True, BLACK)
 hard_rect = hard_text.get_rect()
 hard_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 140)
 
+impossible_text = font_content.render("Press 'I' - Impossible (10x10)",True,BLACK)
+impossible_rect = impossible_text.get_rect()
+impossible_rect.center = (WINDOW_WIDTH // 2,WINDOW_HEIGHT // 2 + 190)
+
 # end screen
 play_again_text = font_title.render('Play Again?', True, SKYBLUE)
 play_again_rect = play_again_text.get_rect()
@@ -213,6 +217,10 @@ while running:
                     key_sound.play()
                     pygame.display.update()
                     start_game(5)
+                elif keys[pygame.K_i]:
+                    key_sound.play()
+                    pygame.display.update()
+                    start_game(10)
 
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not is_game_over:
             mouse_pos = pygame.mouse.get_pos()
@@ -253,6 +261,7 @@ while running:
         screen.blit(easy_text, easy_rect)
         screen.blit(medium_text, medium_rect)
         screen.blit(hard_text, hard_rect)
+        screen.blit(impossible_text,impossible_rect)
         screen.blit(exit_text,exit_rect)
         pygame.event.get()
     elif show_zaciatok:
