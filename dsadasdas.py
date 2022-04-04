@@ -1,6 +1,7 @@
 import pygame, random
 from termcolor import colored
 from pygame import mixer
+from button import button
 
 pygame.init()
 
@@ -9,7 +10,7 @@ WINDOW_HEIGHT = 600
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption('Puzzle Game')
 
-FPS = 10
+FPS = 60
 clock = pygame.time.Clock()
 
 mixer.music.load('./obrazky./background.mp3')
@@ -34,6 +35,8 @@ j = pygame.image.load("./obrazky./dokopy.jpg")
 font_title = pygame.font.Font('./obrazky./Amatic-Bold.ttf', 120)
 font_content = pygame.font.Font('./obrazky./Amatic-Bold.ttf', 50)
 font_animals = pygame.font.Font('./obrazky./Amatic-Bold.ttf', 40)
+font_menu = pygame.font.Font('./obrazky./Amatic-Bold.ttf', 120)
+font_button = pygame.font.Font('./obrazky./Amatic-Bold.ttf', 69)
 input_font = pygame.font.Font(None,64)
 
 # start screen
@@ -94,12 +97,20 @@ exit_text = font_animals.render("EXIT -> ESC",True,SKYBLUE)
 exit_rect = exit_text.get_rect()
 exit_rect.bottomright = (WINDOW_WIDTH , WINDOW_HEIGHT )
 
+menu_text = font_menu.render("Menu", True, SKYBLUE)
+menu_text_rect = menu_text.get_rect()
+menu_text_rect.center = (WINDOW_WIDTH // 2 , WINDOW_HEIGHT // 2 - 200)
+
+hra_tlacitko = button(pos=(440,360), text_input="PLAY", font= font_button, base_color = BLACK, hovering_color = SKYBLUE)
+vypnut_tlacitko = button(pos=(440,480), text_input="EXIT", font= font_button, base_color = BLACK, hovering_color = SKYBLUE)
+
 input_rect = pygame.Rect(360,260,150,75)
 
+show_main_menu = True
 selected_img = None
 is_game_over = False
 show_start_screen = False
-show_zaciatok = True
+show_zaciatok = False
 
 rows = None
 cols = None
@@ -110,7 +121,7 @@ cell_height = None
 cells = []
 
 def start_game(mode):
-    global cells, cell_width, cell_height, show_start_screen
+    global cells, cell_width, cell_height, show_start_screen,show_zaciatok,show_main_menu
     
     rows = mode
     cols = mode
@@ -130,6 +141,8 @@ def start_game(mode):
         rand_indexes.remove(rand_pos)
         cells.append({'rect': rect, 'border': WHITE, 'order': i, 'pos':rand_pos})
     show_start_screen = False
+    show_main_menu = False
+    show_start_screen = False
 
 active = False
 running = True
@@ -139,24 +152,25 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-    
         if event.type == pygame.MOUSEBUTTONDOWN:
             click_sound = mixer.Sound('./obrazky./click.wav')
             click_sound.play()
+            if hra_tlacitko.check_na_stlacenie(myska_pozicia):
+                    show_main_menu = False
+                    show_zaciatok = True
+                    pygame.display.update()
+            if vypnut_tlacitko.check_na_stlacenie(myska_pozicia):
+                    pygame.quit()
             if input_rect.collidepoint(event.pos):
                 active = True
             else:
                 active = False
-        
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
             if active == True:
-                show_start_screen = False
                 pygame.event.get()
                 pygame.display.update()
-                if event.key == pygame.K_BACKSPACE:
-                    user_text = user_text[0:-1]
                 if event.key == pygame.K_p:
                     key_sound.play()
                     bg = pygame.image.load('./obrazky./pandu.jpg')
@@ -194,12 +208,11 @@ while running:
                     
             if is_game_over:
                 keys = pygame.key.get_pressed()
+                pygame.event.get()
+                mouse_pos = pygame.mouse.get_pos()
                 if keys[pygame.K_SPACE]:
                     key_sound.play()
-                    mouse_pos = pygame.mouse.get_pos()
-                    is_game_over = False
-                    show_zaciatok = True
-                    show_start_screen = False
+                    active = False
                     show_zaciatok = True
                     selected_img = None
                     pygame.display.update()
@@ -223,13 +236,13 @@ while running:
                     start_game(10)
 
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not is_game_over:
-            mouse_pos = pygame.mouse.get_pos()
+            myska_pozicia = pygame.mouse.get_pos()
 
             for cell in cells:
                 rect = cell['rect']
                 order = cell['order']
 
-                if rect.collidepoint(mouse_pos):
+                if rect.collidepoint(myska_pozicia):
                     if not selected_img:
                         selected_img = cell
                         cell['border'] = RED
@@ -264,7 +277,9 @@ while running:
         screen.blit(impossible_text,impossible_rect)
         screen.blit(exit_text,exit_rect)
         pygame.event.get()
+        myska_pozicia = pygame.mouse.get_pos()
     elif show_zaciatok:
+        is_game_over = False
         screen.blit(j,(0,0))
         text_surface = input_font.render(user_text,True,(255,255,255))
         pygame.draw.rect(screen,rect_color,input_rect,2)
@@ -278,6 +293,16 @@ while running:
         input_rect.w = max(150,text_surface.get_width() + 20)
         selected_img = None
         current_img = None
+    elif show_main_menu:
+        pygame.event.get()
+        myska_pozicia = pygame.mouse.get_pos()
+        screen.fill(PRD)
+        screen.blit(menu_text,menu_text_rect)
+        for tlacitko in [hra_tlacitko, vypnut_tlacitko]:
+            tlacitko.zmenenie_farby(myska_pozicia)
+            tlacitko.aktualizuj(screen)
+            
+            pygame.display.update()
         
     else:
 
@@ -285,6 +310,7 @@ while running:
 
         if not is_game_over:
             for i, val in enumerate(cells):
+                active = False
                 pos = cells[i]['pos']
                 img_area = pygame.Rect(cells[pos]['rect'].x, cells[pos]['rect'].y, cell_width, cell_height)
                 screen.blit(bg, cells[i]['rect'], img_area)
