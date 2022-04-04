@@ -97,6 +97,10 @@ exit_text = font_animals.render("EXIT -> ESC",True,SKYBLUE)
 exit_rect = exit_text.get_rect()
 exit_rect.bottomright = (WINDOW_WIDTH , WINDOW_HEIGHT )
 
+menup_text = font_animals.render("TAB <- MENU",True,SKYBLUE)
+menup_rect = menup_text.get_rect()
+menup_rect.bottomright = (WINDOW_WIDTH - 755 , WINDOW_HEIGHT )
+
 menu_text = font_menu.render("Menu", True, SKYBLUE)
 menu_text_rect = menu_text.get_rect()
 menu_text_rect.center = (WINDOW_WIDTH // 2 , WINDOW_HEIGHT // 2 - 200)
@@ -203,6 +207,10 @@ while running:
                     show_zaciatok = False
                     show_start_screen = True
                     active = False
+                elif event.key == pygame.K_TAB:
+                    key_sound.play()
+                    show_main_menu = True
+                    show_zaciatok = False
                 else:
                     quit()
                     
@@ -215,6 +223,9 @@ while running:
                     active = False
                     show_zaciatok = True
                     selected_img = None
+                    pygame.display.update()
+                elif keys[pygame.K_TAB]:
+                    show_main_menu = True
                     pygame.display.update()
             if show_start_screen:
                 keys = pygame.key.get_pressed()
@@ -236,6 +247,7 @@ while running:
                     start_game(10)
 
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not is_game_over:
+            pygame.init()
             myska_pozicia = pygame.mouse.get_pos()
 
             for cell in cells:
@@ -276,6 +288,7 @@ while running:
         screen.blit(hard_text, hard_rect)
         screen.blit(impossible_text,impossible_rect)
         screen.blit(exit_text,exit_rect)
+        screen.blit(menup_text,menup_rect)
         pygame.event.get()
         myska_pozicia = pygame.mouse.get_pos()
     elif show_zaciatok:
@@ -290,6 +303,7 @@ while running:
         screen.blit(tiger_text,tiger_rect)
         screen.blit(monkey_text,monkey_rect)
         screen.blit(exit_text,exit_rect)
+        screen.blit(menup_text,menup_rect)
         input_rect.w = max(150,text_surface.get_width() + 20)
         selected_img = None
         current_img = None
@@ -320,6 +334,7 @@ while running:
             screen.blit(play_again_text, play_again_rect)
             screen.blit(continue_text, continue_rect)
             screen.blit(exit_text,exit_rect)
+            screen.blit(menup_text,menup_rect)
 
     pygame.display.update()
     clock.tick(FPS)
