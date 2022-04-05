@@ -10,16 +10,16 @@ class button:
         self.rect = self.text.get_rect(center =(self.x_pos,self.y_pos))
         
         
-    def check_na_stlacenie(self, pozicia):
+    def click(self, pozicia):
         if pozicia[0] in range(self.rect.left, self.rect.right) and pozicia[1] in range(self.rect.top, self.rect.bottom):
             return True
         return False
     
-    def zmenenie_farby(self, pozicia):
+    def color1(self, pozicia):
         if pozicia[0] in range(self.rect.left, self.rect.right) and pozicia[1] in range(self.rect.top, self.rect.bottom):
             self.text = self.font.render(self.text_input, True, self.hovering_color)
         else:
             self.text = self.font.render(self.text_input, True, self.base_color)
 
-    def aktualizuj(self,okno):
+    def update1(self,okno):
         okno.blit(self.text,self.rect)

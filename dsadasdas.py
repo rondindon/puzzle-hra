@@ -10,7 +10,7 @@ WINDOW_HEIGHT = 600
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption('Puzzle Game')
 
-FPS = 60
+FPS = 10
 clock = pygame.time.Clock()
 
 mixer.music.load('./obrazky./background.mp3')
@@ -125,7 +125,7 @@ cell_height = None
 cells = []
 
 def start_game(mode):
-    global cells, cell_width, cell_height, show_start_screen,show_zaciatok,show_main_menu
+    global cells, cell_width, cell_height,show_start_screen
     
     rows = mode
     cols = mode
@@ -145,8 +145,6 @@ def start_game(mode):
         rand_indexes.remove(rand_pos)
         cells.append({'rect': rect, 'border': WHITE, 'order': i, 'pos':rand_pos})
     show_start_screen = False
-    show_main_menu = False
-    show_start_screen = False
 
 active = False
 running = True
@@ -159,11 +157,11 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             click_sound = mixer.Sound('./obrazky./click.wav')
             click_sound.play()
-            if hra_tlacitko.check_na_stlacenie(myska_pozicia):
+            if hra_tlacitko.click(myska_pozicia):
                     show_main_menu = False
                     show_zaciatok = True
                     pygame.display.update()
-            if vypnut_tlacitko.check_na_stlacenie(myska_pozicia):
+            if vypnut_tlacitko.click(myska_pozicia):
                     pygame.quit()
             if input_rect.collidepoint(event.pos):
                 active = True
@@ -213,7 +211,6 @@ while running:
                     show_zaciatok = False
                 else:
                     quit()
-                    
             if is_game_over:
                 keys = pygame.key.get_pressed()
                 pygame.event.get()
@@ -313,8 +310,8 @@ while running:
         screen.fill(PRD)
         screen.blit(menu_text,menu_text_rect)
         for tlacitko in [hra_tlacitko, vypnut_tlacitko]:
-            tlacitko.zmenenie_farby(myska_pozicia)
-            tlacitko.aktualizuj(screen)
+            tlacitko.color1(myska_pozicia)
+            tlacitko.update1(screen)
             
             pygame.display.update()
         
