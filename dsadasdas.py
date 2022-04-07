@@ -1,5 +1,4 @@
 import pygame, random
-from termcolor import colored
 from pygame import mixer
 from button import button
 
@@ -214,7 +213,7 @@ while running:
             if is_game_over:
                 keys = pygame.key.get_pressed()
                 pygame.event.get()
-                mouse_pos = pygame.mouse.get_pos()
+                myska_pozicia = pygame.mouse.get_pos()
                 if keys[pygame.K_SPACE]:
                     key_sound.play()
                     active = False
@@ -245,13 +244,13 @@ while running:
 
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not is_game_over:
             pygame.init()
-            myska_pozicia = pygame.mouse.get_pos()
+            mouse_pos = pygame.mouse.get_pos()
 
             for cell in cells:
                 rect = cell['rect']
                 order = cell['order']
 
-                if rect.collidepoint(myska_pozicia):
+                if rect.collidepoint(mouse_pos):
                     if not selected_img:
                         selected_img = cell
                         cell['border'] = RED
