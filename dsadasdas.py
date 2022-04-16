@@ -12,6 +12,9 @@ pygame.display.set_caption('Puzzle Game')
 FPS = 10
 clock = pygame.time.Clock()
 
+programIcon = pygame.image.load('./obrazky./puzzle.png')
+pygame.display.set_icon(programIcon)
+
 mixer.music.load('./obrazky./background.mp3')
 mixer.music.play(-1)
 key_sound = mixer.Sound('./obrazky./key_click.wav')
