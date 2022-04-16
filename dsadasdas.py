@@ -221,6 +221,7 @@ while running:
                     selected_img = None
                     pygame.display.update()
                 elif keys[pygame.K_TAB]:
+                    key_sound.play()
                     show_main_menu = True
                     pygame.display.update()
             if show_start_screen:
@@ -241,6 +242,11 @@ while running:
                     key_sound.play()
                     pygame.display.update()
                     start_game(10)
+                elif keys[pygame.K_TAB]:
+                    key_sound.play()
+                    show_main_menu = True
+                    show_zaciatok = False
+                    show_start_screen = False
 
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not is_game_over:
             pygame.init()
