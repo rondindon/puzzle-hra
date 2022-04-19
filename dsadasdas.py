@@ -27,7 +27,7 @@ CRIMSON = (220, 20, 60)
 ORANGE = (255, 127, 0)
 VIOLET = (130, 27, 111)
 SKYBLUE = (49, 71, 176)
-PRD = (113, 168, 122)
+PRD = (100, 115, 161)
 
 rect_color = WHITE
 color_active =  BLACK
@@ -45,7 +45,7 @@ input_font = pygame.font.Font(None,64)
 # start screen
 title_text = font_title.render('Puzzle Game',True ,BLACK)
 title_rect = title_text.get_rect()
-title_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 150)
+title_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 175)
 
 choose_text = font_content.render('Choose your difficulty', True, WHITE )
 choose_rect = choose_text.get_rect()
