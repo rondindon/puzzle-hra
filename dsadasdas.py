@@ -108,8 +108,14 @@ menu_text = font_menu.render("Menu", True,  WHITE)
 menu_text_rect = menu_text.get_rect()
 menu_text_rect.center = (WINDOW_WIDTH // 2 , WINDOW_HEIGHT // 2 - 200)
 
+sure_text = font_title.render("Are you sure ?",True,WHITE)
+sure_text_rect = sure_text.get_rect()
+sure_text_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2)
+
 hra_tlacitko = button(pos=(440,360), text_input="PLAY", font= font_button, base_color = BLACK, hovering_color = WHITE)
 vypnut_tlacitko = button(pos=(440,480), text_input="EXIT", font= font_button, base_color = BLACK, hovering_color = WHITE)
+ano_tlacitko = button(pos=(380,400), text_input="Yes", font= font_button, base_color = BLACK, hovering_color = WHITE)
+nie_tlacitko = button(pos=(500,400), text_input="No", font= font_button, base_color = BLACK, hovering_color = WHITE)
 
 input_rect = pygame.Rect(360,260,150,75)
 
@@ -118,6 +124,7 @@ selected_img = None
 is_game_over = False
 show_start_screen = False
 show_zaciatok = False
+show_are_you_sure = False
 
 rows = None
 cols = None
@@ -128,7 +135,7 @@ cell_height = None
 cells = []
 
 def start_game(mode):
-    global cells, cell_width, cell_height,show_start_screen
+    global cells, cell_width, cell_height
     
     rows = mode
     cols = mode
@@ -147,7 +154,6 @@ def start_game(mode):
         rand_pos = random.choice(rand_indexes)
         rand_indexes.remove(rand_pos)
         cells.append({'rect': rect, 'border': WHITE, 'order': i, 'pos':rand_pos})
-    show_start_screen = False
 
 active = False
 running = True
@@ -164,8 +170,15 @@ while running:
                     show_main_menu = False
                     show_zaciatok = True
                     pygame.display.update()
-            if vypnut_tlacitko.click(myska_pozicia):
+            elif vypnut_tlacitko.click(myska_pozicia):
                     pygame.quit()
+            if ano_tlacitko.click(myska_pozicia):
+                show_are_you_sure = False
+                show_zaciatok = False
+                active = False
+                current_img = None
+                selected_img = None
+                show_start_screen = True
             if input_rect.collidepoint(event.pos):
                 active = True
             else:
@@ -182,7 +195,10 @@ while running:
                     bg_rect = bg.get_rect()
                     bg_rect.topleft = (0, 0)
                     show_zaciatok = False
-                    show_start_screen = True
+                    show_start_screen = False
+                    current_img = None
+                    selected_img = None
+                    show_are_you_sure = True
                     active = False
                 elif event.key == pygame.K_t:
                     key_sound.play()
@@ -190,7 +206,8 @@ while running:
                     bg_rect = bg.get_rect()
                     bg_rect.topleft = (0, 0)
                     show_zaciatok = False
-                    show_start_screen = True
+                    show_start_screen = False
+                    show_are_you_sure = True
                     active = False
                 elif event.key == pygame.K_s:
                     key_sound.play()
@@ -198,7 +215,8 @@ while running:
                     bg_rect = bg.get_rect()
                     bg_rect.topleft = (0, 0)
                     show_zaciatok = False
-                    show_start_screen = True
+                    show_start_screen = False
+                    show_are_you_sure = True
                     active = False
                 elif event.key == pygame.K_o:
                     key_sound.play()
@@ -206,12 +224,14 @@ while running:
                     bg_rect = bg.get_rect()
                     bg_rect.topleft = (0, 0)
                     show_zaciatok = False
-                    show_start_screen = True
+                    show_start_screen = False
+                    show_are_you_sure = True
                     active = False
                 elif event.key == pygame.K_TAB:
                     key_sound.play()
                     show_main_menu = True
                     show_zaciatok = False
+                    bg = None
                 else:
                     quit()
             if is_game_over:
@@ -220,30 +240,37 @@ while running:
                 myska_pozicia = pygame.mouse.get_pos()
                 if keys[pygame.K_SPACE]:
                     key_sound.play()
+                    cells = []
                     active = False
-                    show_zaciatok = True
+                    current_img = None
                     selected_img = None
+                    show_zaciatok = True
                     pygame.display.update()
                 elif keys[pygame.K_TAB]:
                     key_sound.play()
                     show_main_menu = True
+                    bg = None
                     pygame.display.update()
             if show_start_screen:
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_e]:
                     key_sound.play()
+                    show_start_screen = False
                     pygame.display.update()
                     start_game(3)
                 elif keys[pygame.K_m]:
                     key_sound.play()
+                    show_start_screen = False
                     pygame.display.update()
                     start_game(4)
                 elif keys[pygame.K_h]:
                     key_sound.play()
+                    show_start_screen = False
                     pygame.display.update()
                     start_game(5)
                 elif keys[pygame.K_i]:
                     key_sound.play()
+                    show_start_screen = False
                     pygame.display.update()
                     start_game(10)
                 elif keys[pygame.K_TAB]:
@@ -325,7 +352,15 @@ while running:
             tlacitko.update1(screen)
             
             pygame.display.update()
-        
+    elif show_are_you_sure:
+        keys = pygame.key.get_pressed()
+        pygame.event.get()
+        myska_pozicia = pygame.mouse.get_pos()
+        screen.blit(bg,(0,0))
+        screen.blit(sure_text,sure_text_rect)
+        for tlacitko in [ano_tlacitko, nie_tlacitko]:
+            tlacitko.color1(myska_pozicia)
+            tlacitko.update1(screen)
     else:
 
         screen.fill(WHITE)
