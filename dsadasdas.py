@@ -1,3 +1,4 @@
+from turtle import Screen
 import pygame, random
 from pygame import mixer
 from button import button
@@ -28,8 +29,8 @@ VIOLET = (130, 27, 111)
 SKYBLUE = (49, 71, 176)
 PRD = (113, 168, 122)
 
-rect_color = pygame.Color('violet')
-color_active = pygame.Color('blue')
+rect_color = WHITE
+color_active =  BLACK
 color_passive = rect_color
 
 j = pygame.image.load("./obrazky./dokopy.jpg")
@@ -46,7 +47,7 @@ title_text = font_title.render('Puzzle Game',True ,BLACK)
 title_rect = title_text.get_rect()
 title_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 150)
 
-choose_text = font_content.render('Choose your difficulty', True, SKYBLUE )
+choose_text = font_content.render('Choose your difficulty', True, WHITE )
 choose_rect = choose_text.get_rect()
 choose_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 50)
 
@@ -67,48 +68,48 @@ impossible_rect = impossible_text.get_rect()
 impossible_rect.center = (WINDOW_WIDTH // 2,WINDOW_HEIGHT // 2 + 190)
 
 # end screen
-play_again_text = font_title.render('Play Again?', True, SKYBLUE)
+play_again_text = font_title.render('Play Again?', True, BLACK)
 play_again_rect = play_again_text.get_rect()
-play_again_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 150)
+play_again_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 200)
 
 continue_text = font_content.render('Press Space', True, WHITE)
 continue_rect = continue_text.get_rect()
-continue_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 90)
+continue_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 150)
 
-vyber_text = font_title.render('Choose your puzzle!',True,color_active)
+vyber_text = font_title.render('Choose your puzzle!',True,BLACK)
 vyber_rect = vyber_text.get_rect()
 vyber_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 200)
 
-slon_text = font_animals.render('Elephant -->  S',True,BLACK)
+slon_text = font_animals.render('Elephant -->  S',True,WHITE)
 slon_rect = vyber_text.get_rect()
 slon_rect.center = (WINDOW_WIDTH // 2 - 120, WINDOW_HEIGHT // 2 + 20)
 
-panda_text = font_animals.render('Panda      -->  P',True,BLACK)
+panda_text = font_animals.render('Panda      -->  P',True,WHITE)
 panda_rect = vyber_text.get_rect()
 panda_rect.center = (WINDOW_WIDTH // 2 - 120, WINDOW_HEIGHT // 2 + 60)
 
-tiger_text = font_animals.render('T  <-- Tiger',True,BLACK)
+tiger_text = font_animals.render('T  <--      Tiger',True,WHITE)
 tiger_rect = vyber_text.get_rect()
-tiger_rect.center = (WINDOW_WIDTH // 2 + 570, WINDOW_HEIGHT // 2 + 20)
+tiger_rect.center = (WINDOW_WIDTH // 2 + 550, WINDOW_HEIGHT // 2 + 20)
 
-monkey_text = font_animals.render('O  <-- Monkey',True,BLACK)
+monkey_text = font_animals.render('O  <-- Monkey',True,WHITE)
 monkey_rect = vyber_text.get_rect()
-monkey_rect.center = (WINDOW_WIDTH // 2 + 570, WINDOW_HEIGHT // 2 + 60)
+monkey_rect.center = (WINDOW_WIDTH // 2 + 550, WINDOW_HEIGHT // 2 + 60)
 
-exit_text = font_animals.render("EXIT -> ESC",True,SKYBLUE)
+exit_text = font_animals.render("EXIT -> ESC",True,WHITE)
 exit_rect = exit_text.get_rect()
 exit_rect.bottomright = (WINDOW_WIDTH , WINDOW_HEIGHT )
 
-menup_text = font_animals.render("TAB <- MENU",True,SKYBLUE)
+menup_text = font_animals.render("TAB <- MENU",True,WHITE)
 menup_rect = menup_text.get_rect()
 menup_rect.bottomright = (WINDOW_WIDTH - 755 , WINDOW_HEIGHT )
 
-menu_text = font_menu.render("Menu", True, SKYBLUE)
+menu_text = font_menu.render("Menu", True,  WHITE)
 menu_text_rect = menu_text.get_rect()
 menu_text_rect.center = (WINDOW_WIDTH // 2 , WINDOW_HEIGHT // 2 - 200)
 
-hra_tlacitko = button(pos=(440,360), text_input="PLAY", font= font_button, base_color = BLACK, hovering_color = SKYBLUE)
-vypnut_tlacitko = button(pos=(440,480), text_input="EXIT", font= font_button, base_color = BLACK, hovering_color = SKYBLUE)
+hra_tlacitko = button(pos=(440,360), text_input="PLAY", font= font_button, base_color = BLACK, hovering_color = WHITE)
+vypnut_tlacitko = button(pos=(440,480), text_input="EXIT", font= font_button, base_color = BLACK, hovering_color = WHITE)
 
 input_rect = pygame.Rect(360,260,150,75)
 
@@ -303,6 +304,8 @@ while running:
         pygame.draw.rect(screen,rect_color,input_rect,2)
         screen.blit(text_surface,(input_rect.x + 15, input_rect.y + 15))
         screen.blit(vyber_text,vyber_rect)
+        pygame.draw.rect(screen, BLACK, (25,250,175,100))
+        pygame.draw.rect(screen, BLACK, (690,250,175,100))
         screen.blit(slon_text,slon_rect)
         screen.blit(panda_text,panda_rect)
         screen.blit(tiger_text,tiger_rect)
