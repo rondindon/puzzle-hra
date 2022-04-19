@@ -1,4 +1,3 @@
-from turtle import Screen
 import pygame, random
 from pygame import mixer
 from button import button
@@ -135,8 +134,11 @@ cell_height = None
 cells = []
 
 def start_game(mode):
-    global cells, cell_width, cell_height
+    global cells, cell_width, cell_height,show_start_screen,show_zaciatok,mouse_pos
     
+    mouse_pos = pygame.mouse.get_pos()
+    show_start_screen = False
+    show_zaciatok = False
     rows = mode
     cols = mode
     num_cells = rows * cols
@@ -176,8 +178,6 @@ while running:
                 show_are_you_sure = False
                 show_zaciatok = False
                 active = False
-                current_img = None
-                selected_img = None
                 show_start_screen = True
             if nie_tlacitko.click(myska_pozicia):
                 show_are_you_sure = False
@@ -193,15 +193,13 @@ while running:
             if active == True:
                 pygame.event.get()
                 pygame.display.update()
+                mouse_pos = pygame.mouse.get_pos()
                 if event.key == pygame.K_p:
                     key_sound.play()
                     bg = pygame.image.load('./obrazky./pandu.jpg')
                     bg_rect = bg.get_rect()
                     bg_rect.topleft = (0, 0)
                     show_zaciatok = False
-                    show_start_screen = False
-                    current_img = None
-                    selected_img = None
                     show_are_you_sure = True
                     active = False
                 elif event.key == pygame.K_t:
@@ -210,7 +208,6 @@ while running:
                     bg_rect = bg.get_rect()
                     bg_rect.topleft = (0, 0)
                     show_zaciatok = False
-                    show_start_screen = False
                     show_are_you_sure = True
                     active = False
                 elif event.key == pygame.K_s:
@@ -219,7 +216,6 @@ while running:
                     bg_rect = bg.get_rect()
                     bg_rect.topleft = (0, 0)
                     show_zaciatok = False
-                    show_start_screen = False
                     show_are_you_sure = True
                     active = False
                 elif event.key == pygame.K_o:
@@ -228,7 +224,6 @@ while running:
                     bg_rect = bg.get_rect()
                     bg_rect.topleft = (0, 0)
                     show_zaciatok = False
-                    show_start_screen = False
                     show_are_you_sure = True
                     active = False
                 elif event.key == pygame.K_TAB:
@@ -246,8 +241,6 @@ while running:
                     key_sound.play()
                     cells = []
                     active = False
-                    current_img = None
-                    selected_img = None
                     show_zaciatok = True
                     pygame.display.update()
                 elif keys[pygame.K_TAB]:
@@ -259,32 +252,26 @@ while running:
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_e]:
                     key_sound.play()
-                    show_start_screen = False
                     pygame.display.update()
                     start_game(3)
                 elif keys[pygame.K_m]:
                     key_sound.play()
-                    show_start_screen = False
                     pygame.display.update()
                     start_game(4)
                 elif keys[pygame.K_h]:
                     key_sound.play()
-                    show_start_screen = False
                     pygame.display.update()
                     start_game(5)
                 elif keys[pygame.K_i]:
                     key_sound.play()
-                    show_start_screen = False
                     pygame.display.update()
                     start_game(10)
                 elif keys[pygame.K_TAB]:
                     key_sound.play()
                     show_main_menu = True
                     show_zaciatok = False
-                    show_start_screen = False
 
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not is_game_over:
-            pygame.init()
             mouse_pos = pygame.mouse.get_pos()
 
             for cell in cells:
@@ -351,15 +338,11 @@ while running:
         myska_pozicia = pygame.mouse.get_pos()
         screen.fill(PRD)
         screen.blit(menu_text,menu_text_rect)
+        current_img = None
         for tlacitko in [hra_tlacitko, vypnut_tlacitko]:
             tlacitko.color1(myska_pozicia)
             tlacitko.update1(screen)
-            
-            pygame.display.update()
     elif show_are_you_sure:
-        cells = []
-        keys = pygame.key.get_pressed()
-        pygame.event.get()
         myska_pozicia = pygame.mouse.get_pos()
         screen.blit(bg,(0,0))
         screen.blit(sure_text,sure_text_rect)
