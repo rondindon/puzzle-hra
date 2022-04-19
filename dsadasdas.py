@@ -179,6 +179,10 @@ while running:
                 current_img = None
                 selected_img = None
                 show_start_screen = True
+            if nie_tlacitko.click(myska_pozicia):
+                show_are_you_sure = False
+                show_zaciatok = True
+                cells = []
             if input_rect.collidepoint(event.pos):
                 active = True
             else:
@@ -353,6 +357,7 @@ while running:
             
             pygame.display.update()
     elif show_are_you_sure:
+        cells = []
         keys = pygame.key.get_pressed()
         pygame.event.get()
         myska_pozicia = pygame.mouse.get_pos()
