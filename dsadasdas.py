@@ -334,6 +334,8 @@ while running:
         screen.blit(exit_text,exit_rect)
         screen.blit(menup_text,menup_rect)
         input_rect.w = max(150,text_surface.get_width() + 20)
+        current_img = None
+        selected_img = None
     elif show_main_menu:
         pygame.event.get()
         myska_pozicia = pygame.mouse.get_pos()
