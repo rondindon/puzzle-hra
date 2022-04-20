@@ -179,10 +179,10 @@ while running:
                 show_zaciatok = False
                 active = False
                 show_start_screen = True
-            if nie_tlacitko.click(myska_pozicia):
+            elif nie_tlacitko.click(myska_pozicia):
                 show_are_you_sure = False
                 show_zaciatok = True
-                cells = []
+                bg = None
             if input_rect.collidepoint(event.pos):
                 active = True
             else:
@@ -272,6 +272,7 @@ while running:
                     show_zaciatok = False
 
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not is_game_over:
+            pygame.init()
             mouse_pos = pygame.mouse.get_pos()
 
             for cell in cells:
@@ -304,6 +305,8 @@ while running:
         rect_color = color_passive
         
     if show_start_screen:
+        pygame.event.get()
+        myska_pozicia = pygame.mouse.get_pos()
         screen.fill(PRD)
         screen.blit(title_text, title_rect)
         screen.blit(choose_text, choose_rect)
@@ -313,9 +316,9 @@ while running:
         screen.blit(impossible_text,impossible_rect)
         screen.blit(exit_text,exit_rect)
         screen.blit(menup_text,menup_rect)
-        pygame.event.get()
-        myska_pozicia = pygame.mouse.get_pos()
+        pygame.time.wait(250)
     elif show_zaciatok:
+        pygame.event.get()
         is_game_over = False
         screen.blit(j,(0,0))
         text_surface = input_font.render(user_text,True,(255,255,255))
@@ -331,14 +334,11 @@ while running:
         screen.blit(exit_text,exit_rect)
         screen.blit(menup_text,menup_rect)
         input_rect.w = max(150,text_surface.get_width() + 20)
-        selected_img = None
-        current_img = None
     elif show_main_menu:
         pygame.event.get()
         myska_pozicia = pygame.mouse.get_pos()
         screen.fill(PRD)
         screen.blit(menu_text,menu_text_rect)
-        current_img = None
         for tlacitko in [hra_tlacitko, vypnut_tlacitko]:
             tlacitko.color1(myska_pozicia)
             tlacitko.update1(screen)
