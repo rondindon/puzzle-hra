@@ -180,9 +180,7 @@ while running:
                 active = False
                 show_start_screen = True
             elif nie_tlacitko.click(myska_pozicia):
-                show_are_you_sure = False
-                show_zaciatok = True
-                bg = None
+                    pygame.quit()
             if input_rect.collidepoint(event.pos):
                 active = True
             else:
@@ -268,8 +266,8 @@ while running:
                     start_game(10)
                 elif keys[pygame.K_TAB]:
                     key_sound.play()
-                    show_main_menu = True
-                    show_zaciatok = False
+                    show_start_screen = False
+                    show_zaciatok = True
 
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not is_game_over:
             pygame.init()
