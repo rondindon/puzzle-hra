@@ -368,7 +368,6 @@ while running:
             screen.blit(play_again_text, play_again_rect)
             screen.blit(continue_text, continue_rect)
             screen.blit(exit_text,exit_rect)
-            screen.blit(menup_text,menup_rect)
 
     pygame.display.update()
     clock.tick(FPS)
