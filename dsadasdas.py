@@ -15,9 +15,9 @@ clock = pygame.time.Clock()
 programIcon = pygame.image.load('./obrazky./puzzle.png')
 pygame.display.set_icon(programIcon)
 
-mixer.music.load('./obrazky./background.mp3')
-mixer.music.play(-1)
-key_sound = mixer.Sound('./obrazky./key_click.wav')
+#mixer.music.load('./obrazky./background.mp3')
+#mixer.music.play(-1)
+#key_sound = mixer.Sound('./obrazky./key_click.wav')
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -166,8 +166,8 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
-            click_sound = mixer.Sound('./obrazky./click.wav')
-            click_sound.play()
+            #click_sound = mixer.Sound('./obrazky./click.wav')
+            #click_sound.play()
             if hra_tlacitko.click(myska_pozicia):
                     show_main_menu = False
                     show_zaciatok = True
@@ -180,7 +180,9 @@ while running:
                 active = False
                 show_start_screen = True
             elif nie_tlacitko.click(myska_pozicia):
-                    pygame.quit()
+                    show_are_you_sure = False
+                    bg = None
+                    show_zaciatok = True
             if input_rect.collidepoint(event.pos):
                 active = True
             else:
@@ -193,7 +195,7 @@ while running:
                 pygame.display.update()
                 mouse_pos = pygame.mouse.get_pos()
                 if event.key == pygame.K_p:
-                    key_sound.play()
+                    #key_sound.play()
                     bg = pygame.image.load('./obrazky./pandu.jpg')
                     bg_rect = bg.get_rect()
                     bg_rect.topleft = (0, 0)
@@ -201,7 +203,7 @@ while running:
                     show_are_you_sure = True
                     active = False
                 elif event.key == pygame.K_t:
-                    key_sound.play()
+                    #key_sound.play()
                     bg = pygame.image.load('./obrazky./tigra.jpg')
                     bg_rect = bg.get_rect()
                     bg_rect.topleft = (0, 0)
@@ -209,7 +211,7 @@ while running:
                     show_are_you_sure = True
                     active = False
                 elif event.key == pygame.K_s:
-                    key_sound.play()
+                    #key_sound.play()
                     bg = pygame.image.load('./obrazky./slona.jpg')
                     bg_rect = bg.get_rect()
                     bg_rect.topleft = (0, 0)
@@ -217,7 +219,7 @@ while running:
                     show_are_you_sure = True
                     active = False
                 elif event.key == pygame.K_o:
-                    key_sound.play()
+                    #key_sound.play()
                     bg =pygame.image.load('./obrazky./opicu.jpg')
                     bg_rect = bg.get_rect()
                     bg_rect.topleft = (0, 0)
@@ -225,7 +227,7 @@ while running:
                     show_are_you_sure = True
                     active = False
                 elif event.key == pygame.K_TAB:
-                    key_sound.play()
+                    #key_sound.play()
                     show_main_menu = True
                     show_zaciatok = False
                     bg = None
@@ -236,38 +238,39 @@ while running:
                 pygame.event.get()
                 myska_pozicia = pygame.mouse.get_pos()
                 if keys[pygame.K_SPACE]:
-                    key_sound.play()
+                    #key_sound.play()
                     cells = []
                     active = False
                     show_zaciatok = True
                     pygame.display.update()
                 elif keys[pygame.K_TAB]:
-                    key_sound.play()
+                    #key_sound.play()
                     show_main_menu = True
                     bg = None
                     pygame.display.update()
             if show_start_screen:
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_e]:
-                    key_sound.play()
+                    #key_sound.play()
                     pygame.display.update()
                     start_game(3)
                 elif keys[pygame.K_m]:
-                    key_sound.play()
+                    #key_sound.play()
                     pygame.display.update()
                     start_game(4)
                 elif keys[pygame.K_h]:
-                    key_sound.play()
+                    #key_sound.play()
                     pygame.display.update()
                     start_game(5)
                 elif keys[pygame.K_i]:
-                    key_sound.play()
+                    #key_sound.play()
                     pygame.display.update()
                     start_game(10)
                 elif keys[pygame.K_TAB]:
-                    key_sound.play()
+                    #key_sound.play()
+                    is_game_over = False
                     show_start_screen = False
-                    show_zaciatok = True
+                    show_main_menu = True
 
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and not is_game_over:
             pygame.init()
